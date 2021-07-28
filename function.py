@@ -22,7 +22,7 @@ class P3dCfgOpr(configparser.ConfigParser):
         _cfgFileDetector.reset()
 
 
-sceneryCfg1 = P3dCfgOpr()
-sceneryCfg2 = P3dCfgOpr('E:/scenery2.cfg')
-print(sceneryCfg1.sections(), sceneryCfg2.sections())
-print(sceneryCfg1.sections())
+#sceneryCfg1 = P3dCfgOpr()
+#sceneryCfg2 = P3dCfgOpr('E:/scenery2.cfg')
+#print(sceneryCfg1.sections(), sceneryCfg2.sections())
+#print(sceneryCfg1.sections())
