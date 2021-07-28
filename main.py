@@ -1,33 +1,39 @@
 # -*- coding: utf-8 -*-
 from function import P3dCfgOpr
 import sys
-from typing import Optional
-#import function
 from gui import *
-from PySide6.QtCore import *  # type: ignore
-from PySide6.QtGui import *  # type: ignore
-from PySide6.QtWidgets import *  # type: ignore
-import PySide6
+from PySide6.QtCore import *
+from PySide6.QtGui import *
+from PySide6.QtWidgets import *
+
+columnContList = ['Active', 'Title', 'Local', 'Layer']
 
 if __name__ == '__main__':
-    sceneryCfg = P3dCfgOpr()
-    ckBoxList = []
+    tableItemDict = {}
+    tableItemDict = tableItemDict.fromkeys(columnContList, [])
+
+    sceneryCfgContent = P3dCfgOpr()
     app_MainWindow = QApplication(sys.argv)
     obj_MainWindow = QMainWindow()
     gui_MainWindow = Ui_MainWindow()
     gui_MainWindow.setupUi(obj_MainWindow)
 
-    #TEST PART|测试部分
-    gui_MainWindow.tableWidget.setRowCount(len(sceneryCfg.sections()))
+    # TEST PART|测试部分
+    gui_MainWindow.tableWidget.setRowCount(
+        len(sceneryCfgContent.sections()) - 1)
     for i in range(gui_MainWindow.tableWidget.rowCount()):
-        ckBoxList.insert(i, TableCheckBoxWidget())
-        gui_MainWindow.tableWidget.setCellWidget(i, 0, ckBoxList[i])
-    
-    #
-    #gui_MainWindow.tableWidget.setCellWidget(0, 1, tableCheckBoxWidget)
-    #TEST PART|测试部分
+        for j in range(gui_MainWindow.tableWidget.columnCount()):
+            if j == 0:
+                tableItemDict[columnContList[j]].insert(
+                    i, TableCheckBoxWidget())
+                gui_MainWindow.tableWidget.setCellWidget(
+                    i, j, tableItemDict[columnContList[j]][i])
+            else:
+                tableItemDict[columnContList[j]].insert(i, QTableWidgetItem())
+                tableItemDict[columnContList[j]][i].setText(sceneryCfgContent.get(
+                    (sceneryCfgContent.sections())[i + 1], columnContList[j]))
+                gui_MainWindow.tableWidget.setItem(
+                    i, j, tableItemDict[columnContList[j]][i])
+    # TEST PART|测试部分
     obj_MainWindow.show()
-    #print(ckBoxList)
     sys.exit(app_MainWindow.exec())
-
-

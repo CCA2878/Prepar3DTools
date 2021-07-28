@@ -38,6 +38,8 @@ class Ui_MainWindow(object):
         self.tableWidget.setVerticalHeaderItem(0, __qtablewidgetitem2)
         __qtablewidgetitem3 = QTableWidgetItem()
         self.tableWidget.setVerticalHeaderItem(1, __qtablewidgetitem3)
+        __qtablewidgetitem4 = QTableWidgetItem()
+        self.tableWidget.setItem(1, 1, __qtablewidgetitem4)
         self.tableWidget.setObjectName(u"tableWidget")
         self.tableWidget.setGeometry(QRect(10, 10, 761, 471))
         self.tableWidget.setShowGrid(True)
@@ -69,6 +71,13 @@ class Ui_MainWindow(object):
         ___qtablewidgetitem2.setText(QCoreApplication.translate("MainWindow", u"\u65b0\u5efa\u884c", None));
         ___qtablewidgetitem3 = self.tableWidget.verticalHeaderItem(1)
         ___qtablewidgetitem3.setText(QCoreApplication.translate("MainWindow", u"\u65b0\u5efa\u884c", None));
+
+        __sortingEnabled = self.tableWidget.isSortingEnabled()
+        self.tableWidget.setSortingEnabled(False)
+        ___qtablewidgetitem4 = self.tableWidget.item(1, 1)
+        ___qtablewidgetitem4.setText(QCoreApplication.translate("MainWindow", u"123", None));
+        self.tableWidget.setSortingEnabled(__sortingEnabled)
+
         self.menu.setTitle(QCoreApplication.translate("MainWindow", u"\u8bbe\u7f6e", None))
     # retranslateUi
 
