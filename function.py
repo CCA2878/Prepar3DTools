@@ -9,15 +9,15 @@ from chardet.universaldetector import UniversalDetector
 
 class P3dCfgOpr(configparser.ConfigParser):
 
-    def __init__(self, cfgAddr='E:/scenery.cfg') -> None:
+    def __init__(self, cfgPath='E:/scenery.cfg') -> None:
         super().__init__()
-        self.cfgAddr = cfgAddr
+        self.cfgPath = cfgPath
         self.__getCfgEncoding()
-        self.read(self.cfgAddr, self.__cfgEncoding)
+        self.read(self.cfgPath, self.__cfgEncoding)
 
     def __getCfgEncoding(self) -> None:
         __cfgFileDetector = UniversalDetector()
-        __cfgFile = open(self.cfgAddr, 'rb')
+        __cfgFile = open(self.cfgPath, 'rb')
 
         for _line in __cfgFile:
             __cfgFileDetector.feed(_line)
@@ -32,7 +32,7 @@ class P3dCfgOpr(configparser.ConfigParser):
 
 class P3dInfoSrc():
 
-    def __init__(self, version='v5') -> None:
+    def __init__(self, version = 'v5') -> None:
         self.version = version
         pass
 
@@ -62,11 +62,23 @@ class P3dInfoSrc():
 
         return __instedVerList
 
-    def getInstAddr():
-        pass
+    def getInstPath(self):  # 成功则返回路径，失败返回None
+        try:
+            __key = OpenKey(HKEY_CURRENT_USER,r'Software\Lockheed Martin\Prepar3D ' + f'{self.version}')
+        except:
+            return None
+        else:
+            try:
+                __value = QueryValueEx(__key, 'AppPath')[0]
+            except:
+                __key.Close()
+                return None
+            else:
+                return __value
 
 
-#sceneryCfg1 = P3dCfgOpr()
-#sceneryCfg2 = P3dCfgOpr('E:/scenery2.cfg')
-#print(sceneryCfg1.sections(), sceneryCfg2.sections())
-# print(sceneryCfg1.sections())
+
+                #sceneryCfg1 = P3dCfgOpr()
+                #sceneryCfg2 = P3dCfgOpr('E:/scenery2.cfg')
+                #print(sceneryCfg1.sections(), sceneryCfg2.sections())
+                # print(sceneryCfg1.sections())
