@@ -15,25 +15,27 @@ class MainClass():
         self.gui.setupUi(self.__qtObj)
 
     def fillTable(self) -> None:
-        self.gui.tableWidget.clearContents()
+        self.gui.tableWidgetC.clearContents()
         tableItemDict = {}
         tableItemDict = tableItemDict.fromkeys(columnContList, [])
         sceneCfgCont = P3dCfgOpr()
-        self.gui.tableWidget.setRowCount(
+        self.gui.tableWidgetC.setRowCount(
             len(sceneCfgCont.sections()) - 1)
-        for i in range(self.gui.tableWidget.rowCount()):
-            for j in range(self.gui.tableWidget.columnCount()):
-                if j == 0:
+        for i in range(self.gui.tableWidgetC.rowCount()):
+            for j in range(self.gui.tableWidgetC.columnCount()):
+                if columnContList[j] == 'Active':
                     tableItemDict[columnContList[j]].insert(
                         i, TableCheckBoxWidget())
-                    self.gui.tableWidget.setCellWidget(
+                    self.gui.tableWidgetC.setCellWidget(
                         i, j, tableItemDict[columnContList[j]][i])
+                elif columnContList[j] == 'Layer':
+                    tableItemDict[columnContList[j]].insert(i, QTableWidgetItem())
+                    tableItemDict[columnContList[j]][i].setData(Qt.DisplayRole, int(sceneCfgCont.get((sceneCfgCont.sections())[i + 1], columnContList[j])))
+                    self.gui.tableWidgetC.setItem(i, j, tableItemDict[columnContList[j]][i])
                 else:
                     tableItemDict[columnContList[j]].insert(i, QTableWidgetItem())
-                    tableItemDict[columnContList[j]][i].setText(sceneCfgCont.get(
-                        (sceneCfgCont.sections())[i + 1], columnContList[j]))
-                    self.gui.tableWidget.setItem(
-                        i, j, tableItemDict[columnContList[j]][i])
+                    tableItemDict[columnContList[j]][i].setText(sceneCfgCont.get((sceneCfgCont.sections())[i + 1], columnContList[j]))
+                    self.gui.tableWidgetC.setItem(i, j, tableItemDict[columnContList[j]][i])
 
     def setVisible(self, TF: 'bool' = True) -> None:
         self.__qtObj.setVisible(TF)
@@ -43,7 +45,9 @@ if __name__ == '__main__':  # 负责启动窗口及一系列操作
     mainInfoSrc = P3dInfoSrc()
     __qtApp = QApplication(sys.argv)
     mainObj = MainClass()
+    mainObj.gui.listWidgetL.setCurrentRow(0)
     mainObj.fillTable()
+    mainObj.gui.tableWidgetC.selectRow(0)
     print(mainInfoSrc.getInstPath())
 
 
