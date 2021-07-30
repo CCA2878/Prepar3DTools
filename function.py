@@ -4,37 +4,11 @@ import configparser
 from winreg import OpenKey, HKEY_CURRENT_USER, QueryValueEx
 from chardet.universaldetector import UniversalDetector
 
-# Judge cfg file encoding and read it.|判断文件编码方式并读取。
-
-
-class P3dCfgOpr(configparser.ConfigParser):
-
-    def __init__(self, cfgPath='E:/scenery.cfg') -> None:
-        super().__init__()
-        self.cfgPath = cfgPath
-        self.__getCfgEncoding()
-        self.read(self.cfgPath, self.__cfgEncoding)
-
-    def __getCfgEncoding(self) -> None:
-        __cfgFileDetector = UniversalDetector()
-        __cfgFile = open(self.cfgPath, 'rb')
-
-        for _line in __cfgFile:
-            __cfgFileDetector.feed(_line)
-            if __cfgFileDetector.done:
-                break
-
-        __cfgFile.close()
-        __cfgFileDetector.close()
-        self.__cfgEncoding = __cfgFileDetector.result['encoding']
-        __cfgFileDetector.reset()
-
 
 class P3dInfoSrc():
 
     def __init__(self, version = 'v5') -> None:
         self.version = version
-        pass
 
     @staticmethod
     def getInstedVerList():
@@ -76,6 +50,36 @@ class P3dInfoSrc():
             else:
                 return __value
 
+
+
+class P3dCfgOpr(configparser.ConfigParser):# Judge cfg file encoding and read it.|判断文件编码方式并读取。
+
+    def __init__(self, cfgPath='E:/scenery.cfg') -> None:
+        super().__init__()
+        self.cfgPath = cfgPath
+        self.__getCfgEncoding()
+        self.read(self.cfgPath, self.__cfgEncoding)
+
+    def __getCfgEncoding(self) -> None:
+        __cfgFileDetector = UniversalDetector()
+        __cfgFile = open(self.cfgPath, 'rb')
+
+        for _line in __cfgFile:
+            __cfgFileDetector.feed(_line)
+            if __cfgFileDetector.done:
+                break
+
+        __cfgFile.close()
+        __cfgFileDetector.close()
+        self.__cfgEncoding = __cfgFileDetector.result['encoding']
+        __cfgFileDetector.reset()
+
+
+class GUIOpr():
+
+    def __init__(self) -> None:
+        self.infoSrc = P3dInfoSrc()
+        self.CfgOpr = P3dCfgOpr()
 
 
                 #sceneryCfg1 = P3dCfgOpr()
