@@ -46,20 +46,31 @@ class MainClass():  # 主类，GUI相关操作暂时也放这
                     self.gui.tableWidgetC.setItem(i, j, tableItemDict[columnContList[j]][i])
 
 
-    def setCkBoxState(self, tableCkBoxWidget:TableCheckBoxWidget, actStr:str = 'FALSE', reqStr:str = 'FALSE'):
+    def setCkCellState(self, columnSet:set, actStr:str = 'FALSE', reqStr:str = 'FALSE'):
         if actStr.upper() == 'TRUE':
-            tableCkBoxWidget.tableCheckBox.setChecked(True)
+            columnSet[0].tableCheckBox.setChecked(True)
+            columnSet[1].setText('b')
+            if reqStr.upper() == 'TRUE':
+                columnSet[0].tableCheckBox.setDisabled(True)
+                columnSet[1].setText('c')
+            elif reqStr.upper() == 'FALSE':
+                columnSet[0].tableCheckBox.setDisabled(False)
         elif actStr.upper() == 'FALSE':
-            tableCkBoxWidget.tableCheckBox.setChecked(False)
+            columnSet[0].tableCheckBox.setChecked(False)
+            columnSet[1].setText('a')
 
-        if reqStr.upper() == 'TRUE':
-            tableCkBoxWidget.tableCheckBox.setDisabled(True)
-        elif reqStr.upper() == 'FALSE':
-            tableCkBoxWidget.tableCheckBox.setDisabled(False)
+
 
     def __initCkBoxCell(self, list:list, row:int, column:int):
+        __font = QFont()
+        __font.setPointSize(1)
+        
         list.insert(row, (TableCheckBoxWidget(), QTableWidgetItem()))
-        self.setCkBoxState(list[row][0], self.sceneCfgOpr.get((self.sceneCfgOpr.sections())[row + 1], 'Active'), self.sceneCfgOpr.get((self.sceneCfgOpr.sections())[row + 1], 'Required'))
+        list[row][1].setData(Qt.FontRole, __font)
+
+        list[row][1].setTextAlignment(Qt.AlignCenter)
+        self.gui.tableWidgetC.setItem(row, column, list[row][1])
+        self.setCkCellState(list[row], self.sceneCfgOpr.get((self.sceneCfgOpr.sections())[row + 1], 'Active'), self.sceneCfgOpr.get((self.sceneCfgOpr.sections())[row + 1], 'Required'))
         self.gui.tableWidgetC.setCellWidget(row, column, list[row][0])
 
 

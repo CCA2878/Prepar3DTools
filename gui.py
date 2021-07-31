@@ -72,7 +72,6 @@ class Ui_MainWindow(object):  # GUI Main Class|GUI主类
         self.tableWidgetC.setSortingEnabled(True)
         self.tableWidgetC.setSelectionBehavior(QAbstractItemView.SelectRows)
         self.tableWidgetC.setSelectionMode(QAbstractItemView.SingleSelection)
-        self.tableWidgetC.horizontalHeader().setStretchLastSection(True)
         self.tableWidgetC.setEditTriggers(QAbstractItemView.NoEditTriggers)
         self.tableWidgetC.setFocusPolicy(Qt.NoFocus)
 
@@ -86,6 +85,10 @@ class Ui_MainWindow(object):  # GUI Main Class|GUI主类
         self.tableWidgetC.setHorizontalHeaderItem(2, __qtableWidgetCItem2)
         __qtableWidgetCItem3 = QTableWidgetItem()
         self.tableWidgetC.setHorizontalHeaderItem(3, __qtableWidgetCItem3)
+
+        self.tableWidgetC.horizontalHeader().setSectionResizeMode(0, QHeaderView.ResizeToContents)
+        self.tableWidgetC.horizontalHeader().setSectionResizeMode(2, QHeaderView.Stretch)
+        self.tableWidgetC.horizontalHeader().setSectionResizeMode(3, QHeaderView.ResizeToContents)
 
         self.tableWidgetC.setObjectName(u"tableWidget")
         sizePolicy_TableWidgetC = QSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)

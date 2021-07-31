@@ -75,7 +75,7 @@ class P3dCfgOpr(configparser.ConfigParser):# Judge cfg file encoding and read it
         __cfgFileDetector.reset()
 
 
-class GUIOpr():
+class GUIOpr():#暂时搁置
 
     def __init__(self) -> None:
         self.infoSrc = P3dInfoSrc()
